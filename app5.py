@@ -3,6 +3,7 @@ from deepface import DeepFace
 from flask_cors import CORS
 app = Flask(__name__)
 CORS(app)
+port = int(os.environ.get("PORT", 5000))
 @app.route('/face_recognition', methods=['POST'])
 def recognize():
     try:
