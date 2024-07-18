@@ -1,0 +1,7 @@
+DeepFace
+tf-keras
+Flask
+Pillow
+Flask-Cors
+Jinja2
+gunicorn
