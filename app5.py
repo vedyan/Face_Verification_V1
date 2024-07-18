@@ -1,8 +1,8 @@
 from flask import Flask, request, jsonify
 from deepface import DeepFace
-
+from flask_cors import CORS
 app = Flask(__name__)
-
+CORS(app)
 @app.route('/face_recognition', methods=['POST'])
 def recognize():
     try:
@@ -36,4 +36,4 @@ def recognize():
         return jsonify({'error': str(e)}), 500
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=port)
