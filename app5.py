@@ -1,8 +1,9 @@
 from flask import Flask, request, jsonify, render_template
 from deepface import DeepFace
 from flask_cors import CORS
-
+import os
 app = Flask(__name__)
+port = int(os.environ.get("PORT", 5000))
 CORS(app)
 
 # img_path= "Vedant.jpg"
@@ -34,4 +35,4 @@ def verify():
         return jsonify({"error": str(e)}), 500
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=port)
