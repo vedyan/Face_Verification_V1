@@ -1,41 +1,37 @@
-from flask import Flask, request, jsonify, send_file
+from flask import Flask, request, jsonify, render_template
 from deepface import DeepFace
 from flask_cors import CORS
-import os
+
 app = Flask(__name__)
 CORS(app)
-port = int(os.environ.get("PORT", 5000))
-@app.route('/face_recognition', methods=['POST'])
-def recognize():
+
+# img_path= "Vedant.jpg"
+# next_path="Me.jpg"
+img_path= "uploaded_image.jpg"
+next_path="uploaded_photo.jpg"
+
+@app.route('/')
+
+def index():
+    return render_template('index.html')
+
+@app.route('/verify', methods=['POST'])
+def verify():
     try:
-        if 'image' not in request.files:
-            return jsonify({'error': 'No image file uploaded.'}), 400
-        if 'new' not in request.files:
-            return jsonify({'error': 'No image file uploaded.'}), 400
-        # Get the files from the POST request
-        img_file = request.files['image']
-        new_file = request.files['new']
-
-
-        # Save the images temporarily
-        img_path = 'first.jpg'
-        new_path = 'second.jpg'
         
+        img_file = request.files['image']
+        photo_file = request.files['photo']
         img_file.save(img_path)
-        new_file.save(new_path)
-
-        # Perform verification using DeepFace
-        result = DeepFace.verify(img1_path=img_path, new1_path=new_path)
-
-        # Delete temporary image files after verification
-        # os.remove(img_path1)
-        # os.remove(img_path2)
-
-        # Return the result as JSON
+        photo_file.save(next_path)
+        
+        result = DeepFace.verify(
+            img1_path=img_path,
+            img2_path=next_path,
+        )
         return jsonify(result)
-
     except Exception as e:
-        return jsonify({'error': str(e)}), 500
+        print("Error occurred:", e)
+        return jsonify({"error": str(e)}), 500
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=port)
+    app.run(debug=True)
