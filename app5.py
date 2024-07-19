@@ -5,8 +5,8 @@ from flask_cors import CORS, cross_origin
 import os
 app = Flask(__name__)
 port = int(os.environ.get("PORT", 5000))
-# CORS(app)
-CORS(app, resources={r"/verify": {"origins": "*"}})
+CORS(app)
+# CORS(app, resources={r"/verify": {"origins": "*"}})
 # img_path= "Vedant.jpg"
 # next_path="Me.jpg"
 img_path= "uploaded_image.jpg"
